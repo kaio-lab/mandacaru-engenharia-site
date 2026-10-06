@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { portfolio, site, type SegmentId } from "./content/siteContent";
 
 const segments = Object.keys(portfolio) as SegmentId[];
+// Sistema de gestão de obras (área restrita para equipe e clientes)
+const acessoUrl = "https://mandacaru-obras.vercel.app";
 const whatsappUrl = `https://wa.me/${site.contacts.whatsappNumber}?text=${encodeURIComponent("Olá, gostaria de conhecer melhor os serviços da Mandacaru Engenharia.")}`;
 
 function scrollToSection(sectionId: string) {
@@ -52,10 +54,13 @@ export default function App() {
           <nav className="desktop-nav" aria-label="Navegação principal">
             {menuItems.map(([label, id]) => <button key={id} onClick={() => scrollToSection(id)}>{label}</button>)}
           </nav>
-          <a className="header-cta" href={whatsappUrl} target="_blank" rel="noreferrer">Fale conosco <span>◌</span></a>
+          <div className="header-actions">
+            <a className="header-access" href={acessoUrl} aria-label="Acesso ao sistema de obras (área restrita)"><span aria-hidden="true">⌂</span> Acesso</a>
+            <a className="header-cta" href={whatsappUrl} target="_blank" rel="noreferrer">Fale conosco <span>◌</span></a>
+          </div>
           <button className="menu-button" onClick={() => setMobileMenuOpen((current) => !current)} aria-expanded={mobileMenuOpen} aria-label="Abrir menu">{mobileMenuOpen ? "×" : "☰"}</button>
         </div>
-        {mobileMenuOpen && <nav className="mobile-nav" aria-label="Navegação móvel">{menuItems.map(([label, id]) => <button key={id} onClick={() => { scrollToSection(id); setMobileMenuOpen(false); }}>{label}<span>→</span></button>)}<a href={whatsappUrl} target="_blank" rel="noreferrer">WhatsApp comercial</a></nav>}
+        {mobileMenuOpen && <nav className="mobile-nav" aria-label="Navegação móvel">{menuItems.map(([label, id]) => <button key={id} onClick={() => { scrollToSection(id); setMobileMenuOpen(false); }}>{label}<span>→</span></button>)}<a className="mobile-access" href={acessoUrl}>Acesso ao sistema</a><a href={whatsappUrl} target="_blank" rel="noreferrer">WhatsApp comercial</a></nav>}
       </header>
 
       <main>
@@ -90,7 +95,7 @@ export default function App() {
         <section id="contato" className="content-section contact-section"><div><p className="eyebrow">Contato comercial</p><h2>Vamos conversar<br />sobre sua próxima obra?</h2></div><a href={whatsappUrl} target="_blank" rel="noreferrer"><span><small>WhatsApp comercial</small><strong>{site.contacts.whatsappLabel}</strong></span><b>◌</b></a></section>
       </main>
 
-      <footer><div><img src={site.brand.logo} alt={site.brand.name} /><p>{site.brand.tagline}</p></div><div><small>Navegação</small><button onClick={() => scrollToSection("empresa")}>A Mandacaru</button><button onClick={() => scrollToSection("obras")}>Obras</button><button onClick={() => scrollToSection("insights")}>Artigos</button></div><div><small>Acompanhe</small><div><a href={site.contacts.linkedin} target="_blank" rel="noreferrer">in</a><a href={site.contacts.instagram} target="_blank" rel="noreferrer">ig</a></div></div><p className="footer-note">© 2026 Mandacaru Engenharia Construtiva <span>Prazo, custo, qualidade e segurança.</span></p></footer>
+      <footer><div><img src={site.brand.logo} alt={site.brand.name} /><p>{site.brand.tagline}</p></div><div><small>Navegação</small><button onClick={() => scrollToSection("empresa")}>A Mandacaru</button><button onClick={() => scrollToSection("obras")}>Obras</button><button onClick={() => scrollToSection("insights")}>Artigos</button><a className="footer-access" href={acessoUrl}>Acesso restrito</a></div><div><small>Acompanhe</small><div><a href={site.contacts.linkedin} target="_blank" rel="noreferrer">in</a><a href={site.contacts.instagram} target="_blank" rel="noreferrer">ig</a></div></div><p className="footer-note">© 2026 Mandacaru Engenharia Construtiva <span>Prazo, custo, qualidade e segurança.</span></p></footer>
       <a className="whatsapp-float" href={whatsappUrl} target="_blank" rel="noreferrer" aria-label="Falar com a Mandacaru pelo WhatsApp">◌</a>
     </div>
   );
